@@ -1,0 +1,48 @@
+version: '3'
+
+networks:
+  custom-network:
+    name: custom-network
+    driver: bridge
+
+services:
+  app:
+    image: tequelequeteque/full-cycle-node
+    container_name: app
+    build: 
+      context: .
+      dockerfile: Dockerfile.node
+    env_file: .env
+    volumes:
+      - .:/app
+    networks:
+      - custom-network
+    depends_on:
+      - db
+      - nginx
+  db:
+    container_name: db
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    env_file: .env
+    environment:
+      MYSQL_USER: ${DB_USER}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - custom-network
+
+  nginx:
+    image: tequelequeteque/full-cycle-nginx
+    build: 
+      context: .
+      dockerfile: Dockerfile.nginx
+    container_name: nginx
+    env_file: .env
+    volumes:
+      - ./custom-server.template:/etc/nginx/conf.d/custom-server.template
+    ports:
+      - "${NGINX_PORT}:${NGINX_PORT}"
+    networks:
+      - custom-network

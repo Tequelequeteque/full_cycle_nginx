@@ -1,0 +1,7 @@
+FROM nginx:alpine
+
+COPY ./custom-server.template /etc/nginx/conf.d/custom-server.template
+
+RUN envsubst '${NGINX_PORT}:${APP_PORT}' < /etc/nginx/conf.d/custom-server.template > /etc/nginx/conf.d/custom-server.conf
+
+CMD nginx -g 'daemon off;'
