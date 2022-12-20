@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({silent: true});
 express = require('express');
 mysql = require('mysql');
 
