@@ -19,7 +19,7 @@ services:
       - custom-network
     depends_on:
       - db
-      - nginx
+
   db:
     container_name: db
     image: mysql
@@ -44,3 +44,5 @@ services:
       - "${NGINX_PORT}:${NGINX_PORT}"
     networks:
       - custom-network
+    depends_on:
+      - app
