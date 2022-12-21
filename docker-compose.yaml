@@ -40,8 +40,6 @@ services:
       dockerfile: Dockerfile.nginx
     container_name: nginx
     env_file: .env
-    volumes:
-      - ./custom-server.template:/etc/nginx/conf.d/custom-server.template
     ports:
       - "${NGINX_PORT}:${NGINX_PORT}"
     networks:
