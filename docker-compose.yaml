@@ -6,6 +6,20 @@ networks:
     driver: bridge
 
 services:
+  nginx:
+    image: tequelequeteque/full-cycle-nginx
+    build: 
+      context: .
+      dockerfile: Dockerfile.nginx
+    container_name: nginx
+    env_file: .env
+    ports:
+      - "${NGINX_EXTERNAL_PORT}:${NGINX_INTERNAL_PORT}"
+    networks:
+      - custom-network
+    depends_on:
+      - app
+
   app:
     image: tequelequeteque/full-cycle-node
     container_name: app
@@ -32,17 +46,3 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     networks:
       - custom-network
-
-  nginx:
-    image: tequelequeteque/full-cycle-nginx
-    build: 
-      context: .
-      dockerfile: Dockerfile.nginx
-    container_name: nginx
-    env_file: .env
-    ports:
-      - "${NGINX_PORT}:${NGINX_PORT}"
-    networks:
-      - custom-network
-    depends_on:
-      - app

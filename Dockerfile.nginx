@@ -2,5 +2,5 @@ FROM nginx:alpine
 
 COPY ./custom-server.template /etc/nginx/conf.d/custom-server.template
 
-CMD envsubst '${NGINX_PORT}:${APP_PORT}' < /etc/nginx/conf.d/custom-server.template > /etc/nginx/conf.d/custom-server.conf && \
+CMD envsubst '${NGINX_INTERNAL_PORT}:${APP_PORT}' < /etc/nginx/conf.d/custom-server.template > /etc/nginx/conf.d/custom-server.conf && \
     nginx -g 'daemon off;'
